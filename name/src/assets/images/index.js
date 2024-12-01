@@ -1,21 +1,21 @@
-import bigShoe1 from "./download.png";
-import bigShoe2 from "./download1.jpg";
-import bigShoe3 from "./download2.jpg";
-import bigShoe4 from "./download.png";
+import bigShoe1 from "./shoe4.jpeg";
+import bigShoe2 from "./shoe5.jpeg";
+import bigShoe3 from "./shoe6.jpeg";
+import bigShoe4 from "./shoe7.jpeg";
 
 import Logo from './logo.jpeg'
 import avatar from './avatar.png';
 
-import shoe4 from "./download.png";
-import shoe5 from "./download1.jpg";
-import shoe6 from "./download2.jpg";
-import shoe7 from "./download3.jpg";
+import shoe4 from "./shoe4.jpeg";
+import shoe5 from "./shoe5.jpeg";
+import shoe6 from "./shoe6.jpeg";
+import shoe7 from "./shoe7.jpeg";
 import shoe8 from "./download.png";
 
 import thumbnailBackground from "./thumbnail-background.svg";
-import thumbnailShoe1 from "./download.png";
-import thumbnailShoe2 from "./download1.jpg";
-import thumbnailShoe3 from "./download2.jpg";
+import thumbnailShoe1 from "./shoe4.jpeg";
+import thumbnailShoe2 from "./shoe5.jpeg";
+import thumbnailShoe3 from "./shoe6.jpeg";
 
 export {
   Logo,

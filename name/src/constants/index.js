@@ -51,22 +51,22 @@ export const statistics = [
 export const products = [
   {
     imgURL: shoe4,
-    name: "Nike Air Jordan-01",
-    price: "$200.20",
-  },
-  {
-    imgURL: shoe5,
-    name: "Nike Air Jordan-10",
+    name: "Monocrystalline Panels",
     price: "$210.20",
   },
   {
-    imgURL: shoe6,
-    name: "Nike Air Jordan-100",
+    imgURL: shoe5,
+    name: "Polycrystalline Panels",
     price: "$220.20",
   },
   {
+    imgURL: shoe6,
+    name: "Thin-Film Panels",
+    price: "$230.20",
+  },
+  {
     imgURL: shoe7,
-    name: "Nike Air Jordan-001",
+    name: "PERC Solar Panels",
     price: "$230.20",
   },
 ];
@@ -74,18 +74,18 @@ export const products = [
 export const services = [
   {
     imgURL: truckFast,
-    label: "Free shipping",
+    label: "Maintenance",
     subtext: "Enjoy seamless shopping with our complimentary shipping service.",
   },
   {
     imgURL: shieldTick,
-    label: "Secure Payment",
+    label: "Power-Full Calculator",
     subtext:
       "Experience worry-free transactions with our secure payment options.",
   },
   {
     imgURL: support,
-    label: "Love to help you",
+    label: "Our Support",
     subtext: "Our dedicated team is here to assist you every step of the way.",
   },
 ];
@@ -132,7 +132,7 @@ export const footerLinks = [
   {
     title: "Get in touch",
     links: [
-      { name: "customer@nike.com", link: "mailto:customer@nike.com" },
+      { name: "customer@solarlink.com", link: "mailto:customer@solarlink.com" },
       { name: "+92554862354", link: "tel:+92554862354" },
     ],
   },
