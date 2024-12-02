@@ -1,10 +1,10 @@
 import { hamburger } from "../assets/icons";
 import { Logo } from "../assets/images";
 import { navLinks } from "../constants";
-
+import { Link } from "react-router-dom";
 const Nav = () => {
   return (
-    <header className="padding-x py-8 absolute z-10 w-full">
+    <header className="padding-x pb-8 absolute z-10 w-full">
       <nav className="flex justify-between items-center max-container">
         <a href="/">
           <img src={Logo} alt="logo" width={100} height={29} />
@@ -20,6 +20,12 @@ const Nav = () => {
               </a>
             </li>
           ))}
+          <li className="font-montserrat leading-normal text-lg text-slate-gray">
+            <Link to="/provider">Provider</Link>
+          </li>
+          <li className="font-montserrat leading-normal text-lg text-slate-gray">
+            <Link to="/calculator">Calculator</Link>
+          </li>
         </ul>
         <div className="hidden max-lg:block">
           <img src={hamburger} alt="Hamburger" width={25} height={25} />

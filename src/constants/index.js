@@ -21,10 +21,9 @@ import {
 } from "../assets/images";
 
 export const navLinks = [
-  { href: "#home", label: "Home" },
+  { href: "/", label: "Home" },
   { href: "#about-us", label: "About Us" },
-  { href: "#calc", label: "Solar Calculator" },
-  { href: "#provider", label: "Provider" },
+  { href: "#product", label: "Products" },
 ];
 
 export const shoes = [
@@ -92,14 +91,14 @@ export const services = [
 
 export const reviews = [
   {
-    imgURL: {avatar},
+    imgURL: avatar,
     customerName: "Ahmed Adel",
     rating: 4.5,
     feedback:
       "The attention to detail and the quality of the product exceeded my expectations. Highly recommended!",
   },
   {
-    imgURL: '',
+    imgURL: avatar,
     customerName: "Ahmed Wagih",
     rating: 4.5,
     feedback:
@@ -111,12 +110,12 @@ export const footerLinks = [
   {
     title: "Products",
     links: [
-      { name: "Air Force 1", link: "/" },
-      { name: "Air Max 1", link: "/" },
-      { name: "Air Jordan 1", link: "/" },
-      { name: "Air Force 2", link: "/" },
-      { name: "Nike Waffle Racer", link: "/" },
-      { name: "Nike Cortez", link: "/" },
+      { name: "Mono Panels", link: "/" },
+      { name: "Poly Panels", link: "/" },
+      { name: "Thin-Film", link: "/" },
+      { name: "PRCE Panels", link: "/" },
+      { name: "Mono Super ", link: "/" },
+      { name: "Poly High", link: "/" },
     ],
   },
   {
