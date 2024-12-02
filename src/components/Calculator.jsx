@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"; // For navigation
-import { fetchPrediction } from "../../utils"; // Import model fetch function
+import { fetchPrediction } from "../utils"; // Import model fetch function
 
 const Calculator = () => {
   const [electricUse, setElectricUse] = useState("");

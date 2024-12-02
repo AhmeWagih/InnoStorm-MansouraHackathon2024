@@ -12,7 +12,7 @@ import {
   Legend,
   Filler,
 } from "chart.js";
-import { fetchPrediction } from "../../utils"; // Import the fetchPrediction function
+import { fetchPrediction } from "../utils"; // Import the fetchPrediction function
 
 // Register necessary components, including Filler plugin
 ChartJS.register(
