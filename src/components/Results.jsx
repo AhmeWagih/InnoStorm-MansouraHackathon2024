@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -10,8 +10,9 @@ import {
   Title,
   Tooltip,
   Legend,
-  Filler,   // <-- Add this import
+  Filler,
 } from "chart.js";
+import { fetchPrediction } from "../../utils"; // Import the fetchPrediction function
 
 // Register necessary components, including Filler plugin
 ChartJS.register(
@@ -23,34 +24,55 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  Filler  // <-- Register Filler plugin
+  Filler
 );
 
 const Results = () => {
   const [activeTab, setActiveTab] = useState("Annual");
-  const chartData = {
-    labels: [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-    ],
-    datasets: [
-      {
-        label: "Electric Usage",
-        data: [500, 600, 800, 900, 1000, 1100, 1200, 1000, 900, 700, 600, 500],
-        backgroundColor: "rgba(128, 128, 128, 0.3)",
-        borderColor: "#6b7280",
-        fill: true,   // <-- Fill option
-        tension: 0.4,
-      },
-      {
-        label: "Solar Production",
-        data: [300, 500, 700, 800, 1000, 1200, 1100, 1000, 900, 700, 600, 400],
-        backgroundColor: "rgba(59, 130, 246, 0.3)",
-        borderColor: "#1e3a8a",
-        fill: true,   // <-- Fill option
-        tension: 0.4,
-      },
-    ],
-  };
+  const [predictionData, setPredictionData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const features = {
+        // Define input features based on the form data or static values
+        monthlyElectricUse: 500, // Replace with actual values
+        solarPanelSize: 350, // Replace with actual values
+      };
+      const data = await fetchPrediction(features);
+      setPredictionData(data);
+      setLoading(false);
+    };
+    fetchData();
+  }, []);
+
+  const chartData = predictionData
+    ? {
+        labels: [
+          "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+        ],
+        datasets: [
+          {
+            label: "Electric Usage",
+            data: predictionData.electricUsage,
+            backgroundColor: "rgba(128, 128, 128, 0.3)",
+            borderColor: "#6b7280",
+            fill: true,
+            tension: 0.4,
+          },
+          {
+            label: "Solar Production",
+            data: predictionData.solarProduction,
+            backgroundColor: "rgba(59, 130, 246, 0.3)",
+            borderColor: "#1e3a8a",
+            fill: true,
+            tension: 0.4,
+          },
+        ],
+      }
+    : null;
 
   const chartOptions = {
     plugins: {
@@ -78,16 +100,18 @@ const Results = () => {
     },
   };
 
-  const barChartData = {
-    labels: ["Before Solar", "After Solar"],
-    datasets: [
-      {
-        label: "Electric Bill",
-        data: [250, 20], // Replace with exact values
-        backgroundColor: ["#007bff", "#007bff"],
-      },
-    ],
-  };
+  const barChartData = predictionData
+    ? {
+        labels: ["Before Solar", "After Solar"],
+        datasets: [
+          {
+            label: "Electric Bill",
+            data: predictionData.electricBill,
+            backgroundColor: ["#007bff", "#007bff"],
+          },
+        ],
+      }
+    : null;
 
   const barChartOptions = {
     plugins: {
@@ -112,17 +136,25 @@ const Results = () => {
     },
   };
 
-  const systemDetails = {
-    panelsNeeded: 14,
-    recommendedSystemSize: "5.6 kW",
-    paybackPeriod: "3 years 11 months",
-    netSavings25Years: "$76,276",
-    taxCredit: "$4,464",
-  };
-
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="loader border-t-4 border-blue-600 border-solid rounded-full w-10 h-10 animate-spin"></div>
+      </div>
+    );
+  }
+
+  if (!predictionData) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-red-600">Error fetching prediction data.</p>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -135,11 +167,15 @@ const Results = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 mb-4">
           <div>
             <p className="text-sm text-gray-700">Your current Annual Electric Use</p>
-            <p className="text-lg font-bold text-blue-600">9,417 kWh</p>
+            <p className="text-lg font-bold text-blue-600">
+              {predictionData.annualElectricUse} kWh
+            </p>
           </div>
           <div>
             <p className="text-sm text-gray-700">Energy Production from Solar System</p>
-            <p className="text-lg font-bold text-blue-600">9,461 kWh</p>
+            <p className="text-lg font-bold text-blue-600">
+              {predictionData.solarEnergyProduction} kWh
+            </p>
           </div>
         </div>
         <div className="border-b border-gray-200 mb-4">
@@ -149,8 +185,8 @@ const Results = () => {
                 key={tab}
                 onClick={() => handleTabChange(tab)}
                 className={`py-2 px-4 text-sm font-medium ${activeTab === tab
-                    ? "text-blue-600 border-b-2 border-blue-600"
-                    : "text-gray-500 hover:text-gray-700"
+                  ? "text-blue-600 border-b-2 border-blue-600"
+                  : "text-gray-500 hover:text-gray-700"
                   }`}
               >
                 {tab}
@@ -159,7 +195,7 @@ const Results = () => {
           </nav>
         </div>
         <div>
-          <Line data={chartData} options={chartOptions} />
+          {chartData && <Line data={chartData} options={chartOptions} />}
         </div>
       </div>
 
@@ -167,13 +203,13 @@ const Results = () => {
       <div className="bg-white shadow-md rounded-lg p-6">
         <h2 className="text-2xl font-semibold mb-4">System and Savings Details</h2>
         <ul className="mb-6">
-          <li>Number of solar panels needed: {systemDetails.panelsNeeded}</li>
-          <li>Recommended system size: {systemDetails.recommendedSystemSize}</li>
-          <li>Payback period: {systemDetails.paybackPeriod}</li>
-          <li>25 year net savings: {systemDetails.netSavings25Years}</li>
-          <li>Residential Clean Energy Tax Credit: {systemDetails.taxCredit}</li>
+          <li>Number of solar panels needed: {predictionData.panelsNeeded}</li>
+          <li>Recommended system size: {predictionData.recommendedSystemSize}</li>
+          <li>Payback period: {predictionData.paybackPeriod}</li>
+          <li>25 year net savings: {predictionData.netSavings25Years}</li>
+          <li>Residential Clean Energy Tax Credit: {predictionData.taxCredit}</li>
         </ul>
-        <Bar data={barChartData} options={barChartOptions} />
+        {barChartData && <Bar data={barChartData} options={barChartOptions} />}
       </div>
     </div>
   );
